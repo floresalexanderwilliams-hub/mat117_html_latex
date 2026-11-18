@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAT-117 · Desafío Final Integrador - La Paz</title>
+    <!-- Cargamos Tailwind CSS para adaptabilidad en móviles y pantallas -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- ==========================================================
+         ESTILOS CSS BÁSICOS Y ORDENADOS
+         Cada regla tiene comentarios sencillos para entender su uso
+         ========================================================== -->
+    <style>
+        /* Configuración general de la página */
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f4f6f9;
+            color: #222222;
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+        }
+
+        /* Encabezado principal */
+        header {
+            background-color: #1e3a8a;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 4px solid #f59e0b;
+        }
+
+        /* Contenedor central para que el contenido quede ordenado */
+        .contenedor-principal {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        /* Tarjetas o cajas blancas para separar cada sección */
+        .caja-seccion {
+            background-color: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Títulos de las secciones */
+        h2 {
+            color: #1e3a8a;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 8px;
+            margin-top: 0;
+            font-size: 1.35rem;
+            font-weight: bold;
+        }
+
+        h3 {
+            color: #0f766e;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        /* Cajas para mostrar fórmulas matemáticas de forma clara */
+        .caja-formula {
+            background-color: #eef2ff;
+            border-left: 4px solid #1e3a8a;
+            padding: 12px 15px;
+            margin: 10px 0;
+            font-family: "Courier New", Courier, monospace;
+            font-weight: bold;
+            font-size: 1rem;
+            border-radius: 4px;
+        }
+
+        /* Estilos básicos para el formulario y las entradas de datos */
+        .grupo-formulario {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 4px;
+            font-size: 0.95rem;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #9ca3af;
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        /* Estilos para los botones */
+        .boton {
+            background-color: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: bold;
+            margin-right: 8px;
+            margin-top: 8px;
+        }
+
+        .boton:hover {
+            background-color: #1d4ed8;
+        }
+
+        .boton-secundario {
+            background-color: #0f766e;
+        }
+
+        .boton-secundario:hover {
+            background-color: #0d9488;
+        }
+
+        .boton-limpiar {
+            background-color: #6b7280;
+        }
+
+        .boton-limpiar:hover {
+            background-color: #4b5563;
+        }
+
+        /* Caja de resultados */
+        .caja-resultado {
+            background-color: #ecfdf5;
+            border: 1px solid #10b981;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        /* Caja de mensajes de error (validación sin usar alert) */
+        .mensaje-error {
+            background-color: #fef2f2;
+            border: 1px solid #ef4444;
+            color: #b91c1c;
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin-top: 12px;
+            font-weight: bold;
+            display: none; /* Oculto por defecto hasta que ocurra un error */
+        }
+
+        /* Estilos básicos para las tablas experimentales */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+            font-size: 0.92rem;
+        }
+
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 8px 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #1e3a8a;
+            color: #ffffff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        /* Fila destacada (por ejemplo, el máximo en el huerto) */
+        .fila-optima {
+            background-color: #fef3c7 !important;
+            font-weight: bold;
+        }
+
+        /* Dibujo sencillo del rectángulo del huerto */
+        .contenedor-dibujo {
+            background-color: #f8fafc;
+            border: 1px dashed #94a3b8;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 12px;
+            text-align: center;
+        }
+
+        #rectangulo-huerto {
+            background-color: #86efac;
+            border: 3px solid #15803d;
+            margin: 10px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #064e3b;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==========================================================
+         ENCABEZADO DE LA PÁGINA
+         ========================================================== -->
+    <header>
+        <h1 class="text-2xl font-bold">MAT-117 · COMPUTACIÓN CIENTÍFICA</h1>
+        <p class="text-lg mt-1">Desafío Final Integrador: “Matemáticas para resolver problemas reales de La Paz”</p>
+        <p class="text-sm mt-1 text-amber-300">Gestión 2026-II · Alternativas Seleccionadas: A (Movilidad Urbana) y D (Huerto Urbano Óptimo)</p>
+    </header>
+
+    <div class="contenedor-principal">
+
+        <!-- ==========================================================
+             INTRODUCCIÓN Y RELACIÓN CON LAS MATERIAS
+             ========================================================== -->
+        <div class="caja-seccion">
+            <h2>1. Fundamentación e Integración de Materias</h2>
+            <p class="mt-2">
+                Esta aplicación web resuelve dos problemas cotidianos de la ciudad de <strong>La Paz</strong> aplicando modelos matemáticos sencillos e implementando funciones en JavaScript para validar entradas, calcular resultados y comprobar conjeturas mediante tablas de 5 pruebas experimentales.
+            </p>
+            <div class="overflow-x-auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Asignatura</th>
+                            <th>Aplicación en Alternativa A (Transporte vs. Caminar)</th>
+                            <th>Aplicación en Alternativa D (Huerto Urbano Óptimo)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Cálculo I</strong></td>
+                            <td>Análisis de la función racional <em>t(v) = d / v</em> y su tasa de cambio negativa <em>t'(v) = -d / v²</em>.</td>
+                            <td>Optimización de la función cuadrática <em>A(x) = 20x - x²</em> usando la derivada <em>A'(x) = 20 - 2x = 0</em>.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Álgebra</strong></td>
+                            <td>Planteamiento de <em>d = v · t</em>, despeje de <em>t = d / v</em> y conversión de unidades.</td>
+                            <td>Despeje del ancho <em>y = 20 - x</em> a partir de la ecuación del perímetro <em>2x + 2y = 40</em>.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Geometría I</strong></td>
+                            <td>Distancia longitudinal <em>d</em> recorrida entre dos zonas de La Paz.</td>
+                            <td>Cálculo de perímetro (<em>P = 40 m</em>) y área superficial (<em>A = x · y</em>) de un rectángulo.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Heurística</strong></td>
+                            <td>Conjetura sobre ahorro de tiempo y dinero en tramos cortos en hora pico.</td>
+                            <td>Conjetura de simetría: el rectángulo de mayor área con perímetro fijo es un cuadrado.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ==========================================================
+             ALTERNATIVA A: ¿CONVIENE CAMINAR O UTILIZAR TRANSPORTE?
+             ========================================================== -->
+        <div class="caja-seccion">
+            <h2>2. Alternativa A: ¿Conviene caminar o utilizar transporte en La Paz?</h2>
+
+            <h3>2.1. Presentación del Problema y Objetivo</h3>
+            <p>
+                <strong>Problema:</strong> En el centro de La Paz (por ejemplo, entre San Francisco, El Prado y Sopocachi), la congestión vehicular en horas pico reduce drásticamente la velocidad de los minibuses y trufis. Muchas veces el ciudadano duda si vale la pena pagar el pasaje o caminar.
+            </p>
+            <p class="mt-1">
+                <strong>Objetivo:</strong> Modelar y comparar el tiempo empleado y el costo económico entre caminar y usar transporte público para distintas distancias y velocidades en La Paz.
+            </p>
+
+            <h3>2.2. Variables con Unidades y Modelo Matemático</h3>
+            <ul class="list-disc pl-6 text-sm space-y-1">
+                <li><strong>d</strong> : Distancia del recorrido en kilómetros (<strong>km</strong>).</li>
+                <li><strong>v<sub>c</sub></strong> : Velocidad promedio caminando en kilómetros por hora (<strong>km/h</strong>).</li>
+                <li><strong>v<sub>t</sub></strong> : Velocidad promedio en transporte público en kilómetros por hora (<strong>km/h</strong>).</li>
+                <li><strong>C</strong> : Costo del pasaje en Bolivianos (<strong>Bs</strong>).</li>
+                <li><strong>t<sub>c</sub> , t<sub>t</sub></strong> : Tiempo caminando y tiempo en transporte en horas (<strong>h</strong>) y minutos (<strong>min</strong>).</li>
+                <li><strong>Δt</strong> : Diferencia de tiempo (tiempo que se ahorra usando transporte) en minutos (<strong>min</strong>).</li>
+            </ul>
+
+            <div class="caja-formula">
+                Modelo Algebraico y de Cálculo:<br>
+                1) Tiempo caminando (horas): t_c = d / v_c &nbsp;&nbsp;|&nbsp;&nbsp; En minutos: t_c(min) = (d / v_c) * 60<br>
+                2) Tiempo en transporte (horas): t_t = d / v_t &nbsp;&nbsp;|&nbsp;&nbsp; En minutos: t_t(min) = (d / v_t) * 60<br>
+                3) Diferencia de tiempo (min): Δt = t_c(min) - t_t(min)
+            </div>
+
+            <!-- Formulario HTML Básico para la Alternativa A -->
+            <h3>2.3. Calculadora Interactiva (Formulario HTML + JavaScript)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-lg border border-slate-200">
+                <div class="grupo-formulario">
+                    <label for="distanciaA">Distancia del trayecto d (km):</label>
+                    <input type="number" id="distanciaA" step="0.1" value="1.5" placeholder="Ejemplo: 1.5">
+                </div>
+                <div class="grupo-formulario">
+                    <label for="velCaminandoA">Velocidad caminando v_c (km/h):</label>
+                    <input type="number" id="velCaminandoA" step="0.1" value="4.5" placeholder="Ejemplo: 4.5">
+                </div>
+                <div class="grupo-formulario">
+                    <label for="velTransporteA">Velocidad en transporte v_t (km/h):</label>
+                    <input type="number" id="velTransporteA" step="0.1" value="6.0" placeholder="Ejemplo: 6.0">
+                </div>
+                <div class="grupo-formulario">
+                    <label for="pasajeA">Costo del pasaje C (Bs):</label>
+                    <input type="number" id="pasajeA" step="0.1" value="2.00" placeholder="Ejemplo: 2.00">
+                </div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div>
+                <button type="button" class="boton" onclick="calcularTransporte(true)">
+                    Calcular y Agregar a la Tabla
+                </button>
+                <button type="button" class="boton boton-secundario" onclick="cargarCincoPruebasA()">
+                    Restaurar las 5 Pruebas Iniciales
+                </button>
+                <button type="button" class="boton boton-limpiar" onclick="limpiarTablaA()">
+                    Vaciar Tabla
+                </button>
+            </div>
+
+            <!-- Mensaje de error para validación (reemplaza a alert) -->
+            <div id="errorA" class="mensaje-error"></div>
+
+            <!-- Caja donde se muestran los resultados actuales -->
+            <div id="resultadoA" class="caja-resultado">
+                <!-- Se llena automáticamente con JavaScript -->
+            </div>
+
+            <!-- Tabla Experimental con al menos 5 pruebas -->
+            <h3>2.4. Tabla Experimental de Pruebas (Alternativa A)</h3>
+            <p class="text-sm text-gray-600">
+                La siguiente tabla muestra 5 pruebas representativas de recorridos en La Paz. Puedes agregar más filas usando el formulario superior.
+            </p>
+            <div class="overflow-x-auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>N° Prueba</th>
+                            <th>Distancia d (km)</th>
+                            <th>Vel. Caminando (km/h)</th>
+                            <th>Vel. Transporte (km/h)</th>
+                            <th>Tiempo Caminando</th>
+                            <th>Tiempo Transporte</th>
+                            <th>Diferencia Δt (min)</th>
+                            <th>Costo Pasaje (Bs)</th>
+                            <th>Decisión Sugerida</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoTablaA">
+                        <!-- Filas generadas con JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Comparación, Conjetura y Conclusión de la Alternativa A -->
+            <h3>2.5. Comparación de Escenarios, Conjetura y Conclusión</h3>
+            <div class="bg-amber-50 border border-amber-200 rounded-md p-4 text-sm space-y-2">
+                <p>
+                    <strong>Conjetura Matemática (Heurística):</strong> <em>"En trayectos cortos del centro de La Paz (d ≤ 2 km) durante hora pico (cuando la velocidad del minibús cae a v<sub>t</sub> ≤ 8 km/h), el ahorro de tiempo en transporte es menor o igual a 15 minutos, haciendo que caminar sea una alternativa eficiente y gratuita."</em>
+                </p>
+                <p>
+                    <strong>Comparación de dos escenarios (Pruebas 1 y 4):</strong>
+                    En el <strong>Escenario 1 (Hora pico en El Prado, d = 1.5 km, v<sub>t</sub> = 6 km/h)</strong>, caminar toma 20.0 min y el minibús toma 15.0 min; la diferencia es de apenas <strong>5.0 minutos</strong> y se ahorran 2.00 Bs. En cambio, en el <strong>Escenario 4 (Vía fluida Miraflores - Obrajes, d = 4.5 km, v<sub>t</sub> = 18 km/h)</strong>, caminar toma 60.0 min frente a 15.0 min en transporte (ahorro de <strong>45.0 minutos</strong>), donde sí conviene pagar el pasaje. ¡La conjetura queda verificada!
+                </p>
+                <p>
+                    <strong>Conclusión y Límites del Modelo:</strong> El modelo <em>t = d / v</em> permite decidir objetivamente cuándo caminar o tomar transporte. Sin embargo, sus <strong>limitaciones</strong> respecto a la realidad de La Paz son: asume velocidad constante (no incluye tiempos de espera en parada ni semáforos) y no penaliza el esfuerzo físico de caminar en pendientes pronunciadas (subidas o bajadas) ni la altitud (3640 m s.n.m.).
+                </p>
+            </div>
+        </div>
+
+        <!-- ==========================================================
+             ALTERNATIVA D: DISEÑEMOS UN HUERTO URBANO ÓPTIMO
+             ========================================================== -->
+        <div class="caja-seccion">
+            <h2>3. Alternativa D: Diseñemos un huerto urbano óptimo (40 m de cerco)</h2>
+
+            <h3>3.1. Presentación del Problema y Objetivo</h3>
+            <p>
+                <strong>Problema:</strong> Una junta vecinal en La Paz dispone de exactamente <strong>40 metros lineales de malla metálica</strong> para cercar un huerto urbano rectangular. Desean saber qué dimensiones (largo y ancho) deben elegir para aprovechar al máximo el terreno cultivable.
+            </p>
+            <p class="mt-1">
+                <strong>Objetivo:</strong> Determinar las dimensiones óptimas del rectángulo (largo <em>x</em> y ancho <em>y</em>) que maximizan el área <em>A(x)</em> manteniendo fijo el perímetro de 40 m.
+            </p>
+
+            <h3>3.2. Variables con Unidades y Modelo Matemático</h3>
+            <ul class="list-disc pl-6 text-sm space-y-1">
+                <li><strong>P</strong> : Perímetro disponible fijo, <strong>P = 40 m</strong>.</li>
+                <li><strong>x</strong> : Largo del huerto rectangular en metros (<strong>m</strong>), con restricción <strong>0 &lt; x &lt; 20</strong>.</li>
+                <li><strong>y</strong> : Ancho del huerto rectangular en metros (<strong>m</strong>).</li>
+                <li><strong>A(x)</strong> : Área superficial del huerto en metros cuadrados (<strong>m²</strong>).</li>
+            </ul>
+
+            <div class="caja-formula">
+                Modelo Geométrico, Algebraico y de Cálculo I:<br>
+                1) Perímetro del rectángulo: 2x + 2y = 40 &nbsp;==&gt;&nbsp; Despejando el ancho: y = 20 - x<br>
+                2) Función de Área: A(x) = x · (20 - x) = 20x - x² &nbsp;(con 0 &lt; x &lt; 20)<br>
+                3) Derivada (Cálculo I): A'(x) = 20 - 2x = 0 &nbsp;==&gt;&nbsp; Máximo en x = 10 m, y = 10 m, Área Máxima = 100 m²
+            </div>
+
+            <!-- Formulario HTML Básico para la Alternativa D -->
+            <h3>3.3. Calculadora Interactiva del Huerto (Formulario HTML + JavaScript)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-lg border border-slate-200 items-center">
+                <div class="grupo-formulario">
+                    <label for="largoX">Ingrese el Largo x del huerto (entre 0.1 y 19.9 metros):</label>
+                    <input type="number" id="largoX" step="0.5" value="10" placeholder="Ejemplo: 10">
+                    <p class="text-xs text-gray-500 mt-1">Nota: Como el perímetro es 40 m, la suma de largo + ancho es 20 m.</p>
+                </div>
+                <div class="contenedor-dibujo">
+                    <span class="text-xs font-bold text-gray-600">Vista Proporcional del Huerto:</span>
+                    <div id="rectangulo-huerto" style="width: 120px; height: 120px;">
+                        10m × 10m
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div>
+                <button type="button" class="boton" onclick="calcularHuerto(true)">
+                    Calcular y Agregar a la Tabla
+                </button>
+                <button type="button" class="boton boton-secundario" onclick="cargarCincoPruebasD()">
+                    Restaurar las 5 Pruebas Iniciales
+                </button>
+                <button type="button" class="boton boton-limpiar" onclick="limpiarTablaD()">
+                    Vaciar Tabla
+                </button>
+            </div>
+
+            <!-- Mensaje de error para validación -->
+            <div id="errorD" class="mensaje-error"></div>
+
+            <!-- Caja donde se muestran los resultados actuales -->
+            <div id="resultadoD" class="caja-resultado">
+                <!-- Se llena automáticamente con JavaScript -->
+            </div>
+
+            <!-- Tabla Experimental con al menos 5 pruebas -->
+            <h3>3.4. Tabla Experimental de Pruebas (Alternativa D)</h3>
+            <p class="text-sm text-gray-600">
+                Se presentan 5 valores de prueba para observar cómo varía el área <em>A(x)</em> y su derivada <em>A'(x)</em> antes, durante y después del punto máximo.
+            </p>
+            <div class="overflow-x-auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>N° Prueba</th>
+                            <th>Largo x (m)</th>
+                            <th>Ancho y = 20 - x (m)</th>
+                            <th>Perímetro P (m)</th>
+                            <th>Área A(x) = x(20 - x) (m²)</th>
+                            <th>Derivada A'(x) = 20 - 2x</th>
+                            <th>Comportamiento</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoTablaD">
+                        <!-- Filas generadas con JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Comparación, Conjetura y Conclusión de la Alternativa D -->
+            <h3>3.5. Comparación de Escenarios, Conjetura y Conclusión</h3>
+            <div class="bg-amber-50 border border-amber-200 rounded-md p-4 text-sm space-y-2">
+                <p>
+                    <strong>Conjetura Matemática (Heurística):</strong> <em>"Para un perímetro fijo de 40 m, el área encerrada aumenta a medida que el largo x se acerca a 10 m, alcanza su valor máximo único de 100 m² cuando la figura es un cuadrado (x = 10 m, y = 10 m), y disminuye simétricamente cuando x se aleja de 10 m."</em>
+                </p>
+                <p>
+                    <strong>Comparación de dos escenarios (Pruebas 2 y 3):</strong>
+                    Si construimos un huerto alargado con <strong>x = 5 m e y = 15 m (Escenario Prueba 2)</strong>, utilizamos los mismos 40 m de malla pero solo obtenemos <strong>75 m²</strong> de área. En cambio, al elegir el diseño cuadrado de <strong>x = 10 m e y = 10 m (Escenario Óptimo Prueba 3)</strong>, obtenemos <strong>100 m²</strong>, ganando <strong>25 m² adicionales (33.3% más de terreno)</strong> sin gastar un solo metro extra de cerco. Además, la tabla confirma que para <em>x = 5</em> y <em>x = 15</em> se obtiene exactamente la misma área (75 m²) por la simetría de la parábola.
+                </p>
+                <p>
+                    <strong>Conclusión y Límites del Modelo:</strong> El modelo cuadrático <em>A(x) = 20x - x²</em> demuestra con exactitud que el diseño óptimo es de 10 m × 10 m. Sus <strong>limitaciones</strong> frente a un terreno real en La Paz son: supone que el terreno disponible es completamente plano, libre de obstáculos y suficientemente ancho para permitir 10 m por lado (en laderas o patios estrechos de La Paz, a veces el ancho máximo del lote es menor a 10 m).
+                </p>
+            </div>
+        </div>
+
+        <!-- ==========================================================
+             SECCIÓN 8 DEL DOCUMENTO: PREGUNTAS BREVES DE DEFENSA
+             ========================================================== -->
+        <div class="caja-seccion">
+            <h2>4. Respuestas Justificadas a las Preguntas Breves de Defensa (Punto 8)</h2>
+
+            <div class="space-y-4 text-sm mt-3">
+                <div class="p-3 bg-slate-50 border-l-4 border-blue-800 rounded">
+                    <p class="font-bold text-blue-900">1. ¿Qué representa cada variable?</p>
+                    <p class="mt-1">
+                        • <strong>En la Alternativa A:</strong> <em>d</em> representa la longitud del trayecto en kilómetros (km); <em>v<sub>c</sub></em> y <em>v<sub>t</sub></em> representan la rapidez media al caminar y en transporte público en kilómetros por hora (km/h); <em>t<sub>c</sub></em> y <em>t<sub>t</sub></em> son los tiempos de viaje resultantes (en horas o minutos); y <em>C</em> es el gasto monetario del pasaje en Bolivianos (Bs).<br>
+                        • <strong>En la Alternativa D:</strong> <em>x</em> es la variable independiente que representa el largo del huerto (m); <em>y = 20 - x</em> es la variable dependiente que representa el ancho (m); <em>P = 40 m</em> es la constante del perímetro disponible; y <em>A(x)</em> es la variable dependiente que mide la superficie cultivable en metros cuadrados (m²).
+                    </p>
+                </div>
+
+                <div class="p-3 bg-slate-50 border-l-4 border-blue-800 rounded">
+                    <p class="font-bold text-blue-900">2. ¿Cómo comprobaron el resultado de JavaScript?</p>
+                    <p class="mt-1">
+                        Comprobamos los cálculos de JavaScript mediante <strong>sustitución algebraica manual</strong> y verificación analítica con Cálculo I:<br>
+                        • Para la Alternativa A, con <em>d = 1.5 km</em> y <em>v<sub>c</sub> = 4.5 km/h</em>, calculamos a mano <em>t = (1.5 / 4.5) × 60 = (1/3) × 60 = 20 minutos</em>, coincidiendo exactamente con la salida del programa.<br>
+                        • Para la Alternativa D, resolvimos analíticamente la derivada <em>A'(x) = 20 - 2x = 0 → x = 10</em>, y evaluamos <em>A(10) = 10(20 - 10) = 100 m²</em> y <em>A(5) = 5(15) = 75 m²</em>, verificando que la tabla generada por JavaScript produce los mismos valores exactos.
+                    </p>
+                </div>
+
+                <div class="p-3 bg-slate-50 border-l-4 border-blue-800 rounded">
+                    <p class="font-bold text-blue-900">3. ¿Qué conjetura probaron?</p>
+                    <p class="mt-1">
+                        • <strong>En la Alternativa A:</strong> Probamos que en distancias cortas (≤ 2 km) con tráfico lento de hora pico (≤ 8 km/h), el transporte público ahorra muy poco tiempo (entre 1.6 y 15 minutos), por lo que caminar resulta altamente conveniente.<br>
+                        • <strong>En la Alternativa D:</strong> Probamos la conjetura isoperimétrica para rectángulos: de todos los rectángulos con perímetro fijo de 40 m, el cuadrado de lado 10 m maximiza el área (100 m²), y valores equidistantes de 10 (como <em>x = 2</em> y <em>x = 18</em>, o <em>x = 5</em> y <em>x = 15</em>) producen exactamente la misma área reducida.
+                    </p>
+                </div>
+
+                <div class="p-3 bg-slate-50 border-l-4 border-blue-800 rounded">
+                    <p class="font-bold text-blue-900">4. ¿Qué cambia al modificar un dato?</p>
+                    <p class="mt-1">
+                        • <strong>En la Alternativa A:</strong> Si se incrementa la distancia <em>d</em>, el tiempo crece de manera <strong>directamente proporcional</strong> (lineal). En cambio, si se modifica la velocidad <em>v</em>, el tiempo cambia de forma <strong>inversamente proporcional</strong> (no lineal): cuando la velocidad del minibús disminuye hacia 0 en una trancadera, el tiempo de viaje crece drásticamente.<br>
+                        • <strong>En la Alternativa D:</strong> Al modificar el largo <em>x</em>, el ancho <em>y</em> disminuye linealmente en la misma proporción (<em>y = 20 - x</em>) para conservar el perímetro de 40 m, mientras que el área <em>A(x)</em> varía de forma parabólica (crece si <em>x &lt; 10</em> y decrece si <em>x &gt; 10</em>).
+                    </p>
+                </div>
+
+                <div class="p-3 bg-slate-50 border-l-4 border-blue-800 rounded">
+                    <p class="font-bold text-blue-900">5. ¿Qué limitaciones tiene su modelo respecto al problema real?</p>
+                    <p class="mt-1">
+                        • <strong>Limitaciones en Movilidad (Alternativa A):</strong> El modelo <em>t = d/v</em> no toma en cuenta el tiempo de espera del minibús, las paradas intermedias, el clima (lluvia), ni la topografía accidentada de La Paz (no es igual caminar 2 km en bajada que subir de Sopocachi al Centro).<br>
+                        • <strong>Limitaciones en el Huerto (Alternativa D):</strong> El modelo geométrico idealiza el terreno como plano y sin restricciones de espacio exterior, y no descuenta el ancho de la puerta de acceso ni los pasillos internos necesarios para caminar dentro del huerto.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ==========================================================
+         CÓDIGO JAVASCRIPT BÁSICO, LIMPIO Y COMENTADO PASO A PASO
+         ========================================================== -->
+    <script>
+        /* ----------------------------------------------------------
+           PARTE 1: LÓGICA PARA LA ALTERNATIVA A (TRANSPORTE VS CAMINAR)
+           ---------------------------------------------------------- */
+
+        // Contador para numerar las pruebas en la tabla A
+        var contadorPruebasA = 0;
+
+        // Función que calcula los tiempos y costos de la Alternativa A
+        function calcularTransporte(agregarALaTabla) {
+            // Paso 1: Obtener los valores escritos por el usuario en los inputs HTML
+            var textoDistancia = document.getElementById("distanciaA").value;
+            var textoVelCaminando = document.getElementById("velCaminandoA").value;
+            var textoVelTransporte = document.getElementById("velTransporteA").value;
+            var textoPasaje = document.getElementById("pasajeA").value;
+
+            // Convertimos los textos a números decimales usando parseFloat
+            var d = parseFloat(textoDistancia);
+            var vc = parseFloat(textoVelCaminando);
+            var vt = parseFloat(textoVelTransporte);
+            var pasaje = parseFloat(textoPasaje);
+
+            // Elemento donde mostraremos errores si algún dato no es válido
+            var cajaError = document.getElementById("errorA");
+
+            // Paso 2: Validar que ningún campo esté vacío (isNaN significa "No es un número")
+            if (isNaN(d) || isNaN(vc) || isNaN(vt) || isNaN(pasaje)) {
+                cajaError.style.display = "block";
+                cajaError.innerHTML = "Error: Por favor completa todos los campos con números válidos.";
+                return; // Detenemos la función si hay error
+            }
+
+            // Paso 3: Validar que las distancias y velocidades sean mayores a cero
+            if (d <= 0 || vc <= 0 || vt <= 0 || pasaje < 0) {
+                cajaError.style.display = "block";
+                cajaError.innerHTML = "Error: La distancia y las velocidades deben ser mayores a 0 (y el pasaje no puede ser negativo).";
+                return;
+            }
+
+            // Si los datos son correctos, ocultamos la caja de error
+            cajaError.style.display = "none";
+
+            // Paso 4: Aplicar el modelo matemático t = d / v
+            var tiempoCaminandoHoras = d / vc;
+            var tiempoTransporteHoras = d / vt;
+
+            // Convertimos las horas a minutos multiplicando por 60
+            var tiempoCaminandoMin = tiempoCaminandoHoras * 60;
+            var tiempoTransporteMin = tiempoTransporteHoras * 60;
+
+            // Calculamos la diferencia de tiempo (cuántos minutos ahorra el transporte)
+            var diferenciaMin = tiempoCaminandoMin - tiempoTransporteMin;
+
+            // Paso 5: Determinar una recomendación sencilla según la diferencia de tiempo
+            var decision = "";
+            if (diferenciaMin <= 10) {
+                decision = "Conviene CAMINAR (poca diferencia de tiempo y ahorras Bs " + pasaje.toFixed(2) + ")";
+            } else {
+                decision = "Conviene TRANSPORTE (ahorras " + diferenciaMin.toFixed(1) + " min por Bs " + pasaje.toFixed(2) + ")";
+            }
+
+            // Paso 6: Mostrar los resultados en la caja de resultados HTML
+            // Usamos .toFixed(2) para redondear a 2 decimales y que sea fácil de leer
+            var cajaResultado = document.getElementById("resultadoA");
+            cajaResultado.innerHTML =
+                "<strong>Resultados del Cálculo Actual:</strong><br>" +
+                "• <strong>Tiempo caminando (t<sub>c</sub>):</strong> " + tiempoCaminandoHoras.toFixed(2) + " h (" + tiempoCaminandoMin.toFixed(1) + " minutos) — Costo: <strong>0.00 Bs</strong><br>" +
+                "• <strong>Tiempo en transporte (t<sub>t</sub>):</strong> " + tiempoTransporteHoras.toFixed(2) + " h (" + tiempoTransporteMin.toFixed(1) + " minutos) — Costo: <strong>" + pasaje.toFixed(2) + " Bs</strong><br>" +
+                "• <strong>Diferencia de tiempo (Δt):</strong> " + diferenciaMin.toFixed(1) + " minutos<br>" +
+                "• <strong>Conclusión del caso:</strong> " + decision;
+
+            // Paso 7: Si el usuario presionó el botón de agregar, insertamos la fila en la tabla
+            if (agregarALaTabla === true) {
+                agregarFilaTablaA(d, vc, vt, tiempoCaminandoMin, tiempoTransporteMin, diferenciaMin, pasaje, decision);
+            }
+        }
+
+        // Función auxiliar para insertar una fila en la tabla experimental A
+        function agregarFilaTablaA(d, vc, vt, tcMin, ttMin, difMin, pasaje, decision) {
+            contadorPruebasA = contadorPruebasA + 1;
+            var cuerpoTabla = document.getElementById("cuerpoTablaA");
+
+            // Creamos una nueva fila HTML con los datos calculados
+            var nuevaFila = "<tr>" +
+                "<td>Prueba " + contadorPruebasA + "</td>" +
+                "<td>" + d.toFixed(1) + " km</td>" +
+                "<td>" + vc.toFixed(1) + " km/h</td>" +
+                "<td>" + vt.toFixed(1) + " km/h</td>" +
+                "<td>" + tcMin.toFixed(1) + " min (" + (tcMin / 60).toFixed(2) + " h)</td>" +
+                "<td>" + ttMin.toFixed(1) + " min (" + (ttMin / 60).toFixed(2) + " h)</td>" +
+                "<td><strong>" + difMin.toFixed(1) + " min</strong></td>" +
+                "<td>" + pasaje.toFixed(2) + " Bs</td>" +
+                "<td>" + decision + "</td>" +
+                "</tr>";
+
+            // Agregamos la fila al contenido de la tabla
+            cuerpoTabla.innerHTML = cuerpoTabla.innerHTML + nuevaFila;
+        }
+
+        // Función para limpiar la tabla A
+        function limpiarTablaA() {
+            document.getElementById("cuerpoTablaA").innerHTML = "";
+            contadorPruebasA = 0;
+        }
+
+        // Función que carga automáticamente las 5 pruebas requeridas por la guía
+        function cargarCincoPruebasA() {
+            limpiarTablaA();
+
+            // Lista con 5 pruebas reales de recorridos en La Paz
+            var pruebasIniciales = [
+                { d: 1.5, vc: 4.5, vt: 6.0, pasaje: 2.00 }, // Prueba 1: Obelisco a Plaza del Estudiante (Hora pico)
+                { d: 1.2, vc: 4.5, vt: 5.0, pasaje: 2.00 }, // Prueba 2: San Francisco a San Pedro (Trancadera)
+                { d: 2.0, vc: 4.0, vt: 8.0, pasaje: 2.00 }, // Prueba 3: El Prado a Sopocachi
+                { d: 4.5, vc: 4.5, vt: 18.0, pasaje: 2.00 }, // Prueba 4: Miraflores a Obrajes (Vía fluida)
+                { d: 8.0, vc: 4.0, vt: 20.0, pasaje: 2.60 }  // Prueba 5: Centro a Calacoto (Tramo largo)
+            ];
+
+            // Recorremos las 5 pruebas con un ciclo for básico
+            for (var i = 0; i < pruebasIniciales.length; i++) {
+                var p = pruebasIniciales[i];
+                var tcMin = (p.d / p.vc) * 60;
+                var ttMin = (p.d / p.vt) * 60;
+                var difMin = tcMin - ttMin;
+                var decision = (difMin <= 10) ? "Conviene CAMINAR" : "Conviene TRANSPORTE";
+
+                agregarFilaTablaA(p.d, p.vc, p.vt, tcMin, ttMin, difMin, p.pasaje, decision);
+            }
+
+            // Calculamos también el valor actual del formulario sin duplicar fila
+            calcularTransporte(false);
+        }
+
+
+        /* ----------------------------------------------------------
+           PARTE 2: LÓGICA PARA LA ALTERNATIVA D (HUERTO URBANO ÓPTIMO)
+           ---------------------------------------------------------- */
+
+        // Contador para numerar las pruebas en la tabla D
+        var contadorPruebasD = 0;
+
+        // Función que calcula el ancho, perímetro y área del huerto rectangular
+        function calcularHuerto(agregarALaTabla) {
+            // Paso 1: Leer el valor del largo x ingresado por el usuario
+            var textoLargo = document.getElementById("largoX").value;
+            var x = parseFloat(textoLargo);
+
+            var cajaError = document.getElementById("errorD");
+
+            // Paso 2: Validar que no esté vacío
+            if (isNaN(x)) {
+                cajaError.style.display = "block";
+                cajaError.innerHTML = "Error: Por favor ingresa un valor numérico para el largo x.";
+                return;
+            }
+
+            // Paso 3: Validar que x esté estrictamente entre 0 y 20 metros
+            if (x <= 0 || x >= 20) {
+                cajaError.style.display = "block";
+                cajaError.innerHTML = "Error: El largo x debe ser mayor que 0 y menor que 20 metros (0 < x < 20) para formar un rectángulo válido con 40 m de cerco.";
+                return;
+            }
+
+            // Ocultamos el mensaje de error si el dato es válido
+            cajaError.style.display = "none";
+
+            // Paso 4: Aplicar las fórmulas del modelo matemático
+            var y = 20 - x;            // Ancho despejado de 2x + 2y = 40
+            var perimetro = 2 * x + 2 * y; // Siempre es 40 m
+            var area = x * y;          // A(x) = x(20 - x)
+            var derivada = 20 - (2 * x); // Derivada A'(x) = 20 - 2x
+
+            // Determinamos el estado según la derivada de Cálculo I
+            var estado = "";
+            if (Math.abs(x - 10) < 0.001) {
+                estado = "¡MÁXIMO ÓPTIMO ALCANZADO! (A'(x) = 0, figura cuadrada)";
+            } else if (derivada > 0) {
+                estado = "Área creciente (A'(x) > 0, conviene aumentar x hacia 10 m)";
+            } else {
+                estado = "Área decreciente (A'(x) < 0, conviene disminuir x hacia 10 m)";
+            }
+
+            // Paso 5: Mostrar el resultado en pantalla
+            var cajaResultado = document.getElementById("resultadoD");
+            cajaResultado.innerHTML =
+                "<strong>Resultados del Huerto para x = " + x.toFixed(2) + " m:</strong><br>" +
+                "• <strong>Ancho calculado (y = 20 - x):</strong> " + y.toFixed(2) + " m<br>" +
+                "• <strong>Perímetro total (P = 2x + 2y):</strong> " + perimetro.toFixed(2) + " m<br>" +
+                "• <strong>Área del huerto A(x):</strong> <strong>" + area.toFixed(2) + " m²</strong> (Diferencia respecto al máximo de 100 m²: -" + (100 - area).toFixed(2) + " m²)<br>" +
+                "• <strong>Análisis con Cálculo I:</strong> Derivada A'(" + x.toFixed(1) + ") = " + derivada.toFixed(2) + " → " + estado;
+
+            // Paso 6: Actualizar el dibujo proporcional del rectángulo
+            var dibujo = document.getElementById("rectangulo-huerto");
+            dibujo.style.width = (x * 11) + "px";
+            dibujo.style.height = (y * 11) + "px";
+            dibujo.innerHTML = x.toFixed(1) + "m × " + y.toFixed(1) + "m";
+
+            // Paso 7: Agregar a la tabla experimental si corresponde
+            if (agregarALaTabla === true) {
+                agregarFilaTablaD(x, y, perimetro, area, derivada);
+            }
+        }
+
+        // Función auxiliar para agregar una fila a la tabla experimental D
+        function agregarFilaTablaD(x, y, perimetro, area, derivada) {
+            contadorPruebasD = contadorPruebasD + 1;
+            var cuerpoTabla = document.getElementById("cuerpoTablaD");
+
+            // Verificamos si es el valor óptimo (x = 10) para resaltarlo en color amarillo
+            var claseFila = "";
+            var textoComportamiento = "";
+
+            if (Math.abs(x - 10) < 0.001) {
+                claseFila = "fila-optima";
+                textoComportamiento = "MÁXIMO ABSOLUTO (Cuadrado 10×10)";
+            } else if (derivada > 0) {
+                textoComportamiento = "Creciente (antes del máximo)";
+            } else {
+                textoComportamiento = "Decreciente (después del máximo)";
+            }
+
+            var nuevaFila = "<tr class='" + claseFila + "'>" +
+                "<td>Prueba " + contadorPruebasD + "</td>" +
+                "<td>" + x.toFixed(1) + " m</td>" +
+                "<td>" + y.toFixed(1) + " m</td>" +
+                "<td>" + perimetro.toFixed(1) + " m</td>" +
+                "<td>" + area.toFixed(2) + " m²</td>" +
+                "<td>" + derivada.toFixed(1) + "</td>" +
+                "<td>" + textoComportamiento + "</td>" +
+                "</tr>";
+
+            cuerpoTabla.innerHTML = cuerpoTabla.innerHTML + nuevaFila;
+        }
+
+        // Función para vaciar la tabla D
+        function limpiarTablaD() {
+            document.getElementById("cuerpoTablaD").innerHTML = "";
+            contadorPruebasD = 0;
+        }
+
+        // Función que carga las 5 pruebas iniciales para demostrar la conjetura del huerto
+        function cargarCincoPruebasD() {
+            limpiarTablaD();
+
+            // 5 valores simétricos de largo x entre 0 y 20 metros
+            var largosDePrueba = [2, 5, 10, 15, 18];
+
+            for (var i = 0; i < largosDePrueba.length; i++) {
+                var x = largosDePrueba[i];
+                var y = 20 - x;
+                var perimetro = 40;
+                var area = x * y;
+                var derivada = 20 - (2 * x);
+
+                agregarFilaTablaD(x, y, perimetro, area, derivada);
+            }
+
+            // Mostrar el cálculo del valor actual en el formulario
+            calcularHuerto(false);
+        }
+
+        // Cuando la página termina de cargar, inicializamos ambas tablas con sus 5 pruebas
+        window.onload = function() {
+            cargarCincoPruebasA();
+            cargarCincoPruebasD();
+        };
+    </script>
+</body>
+</html>
